@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -41,13 +38,12 @@ public class SkieurService implements ISkieurService{
         // t1 = date systeme
         Cours cours = coursRepository.findByNumCours(numCourse);
         Skieur s = skieurRepository.save(skieur);
-        Set<Inscription> inscriptions = new HashSet<>();
+        Set<Inscription> inscriptions;
         inscriptions= s.getInscriptions();
         inscriptions.stream().forEach(
-                inscription ->  {
-                    inscription.setCours(cours);
-                  //  inscription.setSkieur(s);
-                }
+                inscription ->
+                    inscription.setCours(cours)
+
 
         );
         log.info("fin methode addSkieurAndAssignToCourse");
@@ -61,14 +57,15 @@ public class SkieurService implements ISkieurService{
     }
 
     @Override
-    public HashMap<Couleur,Integer> nombreSkieursParCouleurPiste() {
+    public EnumMap<Couleur, Integer> nombreSkieursParCouleurPiste() {
         log.info("debut methode nombreSkieursParCouleurPiste");
-        HashMap<Couleur,Integer> nombreSkieursParCouleurPiste = new HashMap<>();
-        Couleur couleurs[] = Couleur.values();
-        for(Couleur c: couleurs) {
-            nombreSkieursParCouleurPiste.put(c,skieurRepository.skieursByCouleurPiste(c).size());
+        EnumMap<Couleur, Integer> nombreSkieursParCouleurPiste = new EnumMap<>(Couleur.class);
 
+        Couleur[] couleurs = Couleur.values();
+        for (Couleur c : couleurs) {
+            nombreSkieursParCouleurPiste.put(c, skieurRepository.skieursByCouleurPiste(c).size());
         }
+
         log.info("fin methode nombreSkieursParCouleurPiste");
 
         return nombreSkieursParCouleurPiste;

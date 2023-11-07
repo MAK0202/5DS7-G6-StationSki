@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -35,7 +37,14 @@ public class MoniteurServiceImpl implements IMoniteurService{
 
     @Override
     public Moniteur retrieveMoniteur(Integer idMoniteur) {
-        return moniteurRepository.findById(idMoniteur).get();
+        Optional<Moniteur> moniteurOptional = moniteurRepository.findById(idMoniteur);
+        if (moniteurOptional.isPresent()) {
+            return moniteurOptional.get();
+        } else {
+            // Handle the case where the Optional is empty (e.g., return a default value or throw an exception)
+            // Example:
+            throw new NoSuchElementException("Moniteur with ID " + idMoniteur + " not found");
+        }
     }
 
     @Override
@@ -45,9 +54,7 @@ public class MoniteurServiceImpl implements IMoniteurService{
 
     @Transactional
     public Moniteur addMoniteurAndAssignToCourse(Moniteur moniteur) {
-        Moniteur m1 = Moniteur.builder().build();
-        Moniteur m = moniteurRepository.save(moniteur);
-        return m;
+        return moniteurRepository.save(moniteur);
     }
 
     @Override
