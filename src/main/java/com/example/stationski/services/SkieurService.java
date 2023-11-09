@@ -20,6 +20,7 @@ public class SkieurService implements ISkieurService{
     CoursRepository coursRepository;
     @Transactional
     public Skieur assignSkieurToPiste(Long numSkieur, Long numPiste) {
+
         log.info("debut methode assignSkieurToPiste");
         Skieur skieur = skieurRepository.findByNumSkieur(numSkieur);
         Piste piste =pisteRepository.findByNumPiste(numPiste);
@@ -33,8 +34,9 @@ public class SkieurService implements ISkieurService{
 
     @Transactional
     public Skieur addSkieurAndAssignToCourse(Skieur skieur, Long numCourse) {
+
         log.info("debut methode addSkieurAndAssignToCourse");
-        Skieur.builder().nomS("sahli").numSkieur(123L).build();
+        Skieur.builder().nomS(skieur.getNomS()).numSkieur(skieur.getNumSkieur()).build();
         // t1 = date systeme
         Cours cours = coursRepository.findByNumCours(numCourse);
         Skieur s = skieurRepository.save(skieur);
@@ -53,6 +55,7 @@ public class SkieurService implements ISkieurService{
 
     @Override
     public List<Skieur> retrieveSkieursByTypeAbonnement(TypeAbonnement typeAbonnement) {
+
         return skieurRepository.findByAbonnementTypeAbon(typeAbonnement);
     }
 
