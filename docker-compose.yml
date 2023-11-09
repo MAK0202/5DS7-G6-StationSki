@@ -1,0 +1,19 @@
+version: '2'
+services:
+  sonar:
+    image: "sonarqube:8.9.7-community"
+    container_name: sonarqube1
+    volumes:
+      - /home/jihene/sonarqube_data:/opt/sonarqube/data
+      - /home/jihene/sonarqube_logs:/opt/sonarqube/logs
+      - /home/jihene/sonarqube_extensions:/opt/sonarqube/extensions
+    ports:
+      - "9000:9000"
+  mysqldb:
+    image: "mysql:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+    ports:
+      - "3306:3306"
+
