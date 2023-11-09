@@ -5,6 +5,7 @@ import com.example.stationski.repositories.CoursRepository;
 import com.example.stationski.repositories.MoniteurRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,20 +32,27 @@ public class MoniteurServiceImpl implements IMoniteurService{
     }
 
     @Override
-    public Moniteur updateMoniteur(Moniteur m) {
-        return moniteurRepository.save(m);
+    public Optional<Moniteur> updateMoniteur(Moniteur m, Integer id) {
+        Optional<Moniteur> existingMoniteurOptional = moniteurRepository.findById(id);
+        if (existingMoniteurOptional.isPresent()) {
+            var existingMoniteur = existingMoniteurOptional.get();
+            existingMoniteur.setNumMoniteur(m.getNumMoniteur());
+            existingMoniteur.setPrime(m.getPrime());
+            existingMoniteur.setNomM(m.getNomM());
+            existingMoniteur.setPrenomM(m.getPrenomM());
+            existingMoniteur.setDateRecru(m.getDateRecru());
+
+            // Save the updated Moniteur
+            var finalMoniteur = moniteurRepository.save(existingMoniteur);
+            return Optional.of(finalMoniteur);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Moniteur retrieveMoniteur(Integer idMoniteur) {
-        Optional<Moniteur> moniteurOptional = moniteurRepository.findById(idMoniteur);
-        if (moniteurOptional.isPresent()) {
-            return moniteurOptional.get();
-        } else {
-            // Handle the case where the Optional is empty (e.g., return a default value or throw an exception)
-            // Example:
-            throw new NoSuchElementException("Moniteur with ID " + idMoniteur + " not found");
-        }
+    public Optional<Moniteur> retrieveMoniteur(Integer idMoniteur) {
+        return moniteurRepository.findById(idMoniteur);
     }
 
     @Override

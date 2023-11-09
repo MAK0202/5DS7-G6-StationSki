@@ -3,6 +3,7 @@ package com.example.stationski.services;
 import com.example.stationski.entities.Moniteur;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IMoniteurService {
 
@@ -10,9 +11,9 @@ public interface IMoniteurService {
 
     Moniteur addMoniteur(Moniteur m);
 
-    Moniteur updateMoniteur (Moniteur m);
+    Optional<Moniteur> updateMoniteur (Moniteur m, Integer id);
 
-    Moniteur retrieveMoniteur (Integer idMoniteur);
+    Optional<Moniteur> retrieveMoniteur (Integer idMoniteur);
 
     void deleteMoniteur( Integer idMoniteur);
 
