@@ -1,17 +1,15 @@
 package com.example.stationski;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootApplication
-@EnableScheduling
-@EnableAspectJAutoProxy
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class StationSkiApplicationTest {
 
-    public static void main(String[] args) {
-        SpringApplication.run(StationSkiApplication.class, args);
-    }
-
+@Test
+    void contextLoads(){}
 }
