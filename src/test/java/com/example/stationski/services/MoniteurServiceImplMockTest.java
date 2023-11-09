@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 
-public class MoniteurServiceImplMockTest {
+class MoniteurServiceImplMockTest {
     @Mock
     private MoniteurRepository moniteurRepository;
 
@@ -27,7 +27,7 @@ public class MoniteurServiceImplMockTest {
     private MoniteurServiceImpl moniteurService;
 
     @Test
-    public void testRetrieveMoniteur() {
+     void testRetrieveMoniteur() {
         Moniteur moniteur = Moniteur.builder()
                 .numMoniteur(896523L)
                 .nomM("Makni")
@@ -41,7 +41,7 @@ public class MoniteurServiceImplMockTest {
     }
 
     @Test
-    public void testBestMoniteur() {
+    void testBestMoniteur() {
         // Create some sample Moniteurs
         Moniteur moniteur1 = createMoniteurWithCourses(3);
         Moniteur moniteur2 = createMoniteurWithCourses(5);
@@ -83,7 +83,7 @@ public class MoniteurServiceImplMockTest {
     }
 
     @Test
-    public void testRetrieveAllMoniteurs() {
+     void testRetrieveAllMoniteurs() {
         // Create some sample Moniteurs
         Moniteur moniteur1 = Moniteur.builder()
                 .numMoniteur(253698L)
