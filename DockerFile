@@ -1,0 +1,4 @@
+FROM openjdk:11
+EXPOSE 8080
+ADD target/station-ski-project.jar station-ski-project.jar
+ENTRYPOINT ["java","-jar","/station-ski-project.jar"]
