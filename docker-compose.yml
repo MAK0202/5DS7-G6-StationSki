@@ -15,7 +15,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
 
     ports:
-      - "3306:3306"
+      - "3307:3307"
   nexus1:
     image: "sonatype/nexus3:latest"
     container_name: nexus1
@@ -23,23 +23,13 @@ services:
       - /home/jihene/data:/nexus-data
     ports:
       - "8081:8081"
-  mysql1:
-    image: "mysql:latest"
-    container_name: mysql1
-    volumes:
-      - /home/jihene/mysql_data:/var/lib/mysql
-    ports:
-      - "3307:3307"
+
   station-ski-project:
     image: "jihenejebri979/station-ski-project:latest"
     container_name: station-ski
     ports:
       - "8083:8083"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/StationSki?createDatabaseIfNotExist=true&userSSL=false&max_allowed_packet=15728640
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/StationSki?createDatabaseIfNotExist=true&userSSL=false&max_allowed_packet=15728640
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-
-
-
-
