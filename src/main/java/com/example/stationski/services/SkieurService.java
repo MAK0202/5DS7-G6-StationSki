@@ -73,4 +73,21 @@ public class SkieurService implements ISkieurService{
 
         return nombreSkieursParCouleurPiste;
     }
+
+    @Transactional
+    public Skieur addSkieur(Skieur S) {
+        log.info("debut methode addSkieur");
+        // Assuming your SkieurRepository returns the saved entity
+        Skieur savedSkieur = skieurRepository.save(S);
+        log.info("fin methode addSkieur");
+        return savedSkieur;
+    }
+
+
+    public void removeSkieur(Integer id){
+        Skieur S = skieurRepository.findById(id).orElse(null);
+        skieurRepository.delete(S);
+    }
+
+
 }

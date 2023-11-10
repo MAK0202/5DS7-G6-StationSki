@@ -20,13 +20,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-//@ExtendWith(MockitoExtension.class)
 @ExtendWith(MockitoExtension.class)
 @Slf4j
-public class SkieurServiceTest {
+class SkieurServiceTest {
 
     @Mock
     private SkieurRepository SR;
@@ -161,7 +159,7 @@ public class SkieurServiceTest {
 //
 
     @Test
-    public void testNombreSkieursParCouleurPiste() {
+    void testNombreSkieursParCouleurPiste() {
         // Initialize the set before adding elements
         Set<Piste> ListPistes = new HashSet<>();
 
@@ -201,5 +199,46 @@ public class SkieurServiceTest {
         assertNotNull(result);
         assertEquals(2, result.get(Couleur.BLEU)); // Expecting 2 Skieurs with BLEU color
         assertEquals(1, result.get(Couleur.VERT)); // Expecting 1 Skieur with VERT color
+    }
+
+    @Test
+    void testAddSkieur() {
+        // Create a Skieur object
+        Skieur skieur = new Skieur();
+        skieur.setNomS("John");
+        skieur.setPrenomS("Doe");
+
+        // Mock the behavior of skieurRepository.save
+        when(SR.save(skieur)).thenReturn(skieur);
+
+        // Call the method to be tested
+        Skieur result = SSM.addSkieur(skieur);
+
+        // Verify the result
+        assertNotNull(result);
+        assertEquals("John", result.getNomS());
+        assertEquals("Doe", result.getPrenomS());
+
+        // Verify that skieurRepository.save was called once with the expected parameter
+        verify(SR, times(1)).save(skieur);
+    }
+
+    @Test
+    void testRemoveSkieur() {
+        // Create a Skieur object
+        Skieur skieur = new Skieur();
+        skieur.setIdSkieur(1);
+
+        // Mock the behavior of skieurRepository.findById
+        when(SR.findById(1)).thenReturn(Optional.of(skieur));
+
+        // Call the method to be tested
+        SSM.removeSkieur(1);
+
+        // Verify that skieurRepository.findById was called once with the expected parameter
+        verify(SR, times(1)).findById(1);
+
+        // Verify that skieurRepository.delete was called once with the expected parameter
+        verify(SR, times(1)).delete(skieur);
     }
 }
