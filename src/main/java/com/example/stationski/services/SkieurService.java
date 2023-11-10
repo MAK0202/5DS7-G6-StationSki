@@ -20,6 +20,7 @@ public class SkieurService implements ISkieurService{
     CoursRepository coursRepository;
     @Transactional
     public Skieur assignSkieurToPiste(Long numSkieur, Long numPiste) {
+
         log.info("debut methode assignSkieurToPiste");
         Skieur skieur = skieurRepository.findByNumSkieur(numSkieur);
         Piste piste =pisteRepository.findByNumPiste(numPiste);
@@ -33,8 +34,13 @@ public class SkieurService implements ISkieurService{
 
     @Transactional
     public Skieur addSkieurAndAssignToCourse(Skieur skieur, Long numCourse) {
+
         log.info("debut methode addSkieurAndAssignToCourse");
         Skieur.builder().nomS("sahli").numSkieur(123L).build();
+
+        log.info("debut methode addSkieurAndAssignToCourse");
+        Skieur.builder().nomS(skieur.getNomS()).numSkieur(skieur.getNumSkieur()).build();
+
         // t1 = date systeme
         Cours cours = coursRepository.findByNumCours(numCourse);
         Skieur s = skieurRepository.save(skieur);
@@ -53,6 +59,7 @@ public class SkieurService implements ISkieurService{
 
     @Override
     public List<Skieur> retrieveSkieursByTypeAbonnement(TypeAbonnement typeAbonnement) {
+
         return skieurRepository.findByAbonnementTypeAbon(typeAbonnement);
     }
 
@@ -70,4 +77,23 @@ public class SkieurService implements ISkieurService{
 
         return nombreSkieursParCouleurPiste;
     }
+
+
+    @Transactional
+    public Skieur addSkieur(Skieur S) {
+        log.info("debut methode addSkieur");
+        // Assuming your SkieurRepository returns the saved entity
+        Skieur savedSkieur = skieurRepository.save(S);
+        log.info("fin methode addSkieur");
+        return savedSkieur;
+    }
+
+
+    public void removeSkieur(Integer id){
+        Skieur S = skieurRepository.findById(id).orElse(null);
+        skieurRepository.delete(S);
+    }
+
+
+
 }

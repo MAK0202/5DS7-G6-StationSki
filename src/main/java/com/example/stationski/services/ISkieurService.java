@@ -18,4 +18,8 @@ public interface ISkieurService {
     EnumMap<Couleur,Integer> nombreSkieursParCouleurPiste();
 
 
+
+    public void removeSkieur(Integer id);
+
+
 }
