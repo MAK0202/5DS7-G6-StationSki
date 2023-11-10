@@ -118,7 +118,7 @@
                 <version>2.22.0</version>
             </plugin>
         </plugins>
-        <finalName>station-ski-project</finalName>
+        <finalName>5DS7-G6-stationskiproject</finalName>
     </build>
 
 </project>
