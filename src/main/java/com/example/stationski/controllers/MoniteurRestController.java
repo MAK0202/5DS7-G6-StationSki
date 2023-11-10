@@ -1,5 +1,4 @@
 package com.example.stationski.controllers;
-
 import com.example.stationski.entities.Moniteur;
 import com.example.stationski.services.IMoniteurService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +9,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.var;
 import org.springframework.web.bind.annotation.*;
-
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
@@ -40,8 +43,17 @@ public class MoniteurRestController {
                     content = @Content) })
     @GetMapping("/retrieve-moniteur/{moniteur-id}")
     public Moniteur retrieveMoniteur(@Parameter(description = "id of monitor to be searched")
+
+                                          @PathVariable("moniteur-id") Integer moniteurId) {
+            Optional<Moniteur> moniteurOptional = moniteurService.retrieveMoniteur(moniteurId);
+            if(moniteurOptional.isPresent()){
+                return moniteurOptional.get();
+            }
+            else throw new EntityNotFoundException("Moniteur not found");
+
                                          @PathVariable("moniteur-id") Integer moniteurId) {
             return moniteurService.retrieveMoniteur(moniteurId);
+
 }
 
 
@@ -62,8 +74,23 @@ public class MoniteurRestController {
     @Operation(description = "modifier un moniteur")
     // http://localhost:8089/stationSki/moniteur/update-moniteur
     @PutMapping("/update-moniteur")
+
+    public Optional<Moniteur> updateMoniteur(@PathVariable("id") Integer id, @RequestBody Moniteur m) {
+        Optional<Moniteur> existingMoniteurOptional = moniteurService.retrieveMoniteur(id);
+        if(existingMoniteurOptional.isPresent()){
+            var existingMoniteur = existingMoniteurOptional.get();
+            existingMoniteur.setNumMoniteur(m.getNumMoniteur());
+            existingMoniteur.setPrime(m.getPrime());
+            existingMoniteur.setNomM(m.getNomM());
+            existingMoniteur.setPrenomM(m.getPrenomM());
+            existingMoniteur.setDateRecru(m.getDateRecru());
+            return moniteurService.updateMoniteur(existingMoniteur, id);
+        }
+        else throw new EntityNotFoundException("Moniteur not found");
+
     public Moniteur updateMoniteur(@RequestBody Moniteur m) {
         return moniteurService.updateMoniteur(m);
+
     }
 
     @Operation(description = "ajouter un moniteur et affecter à un cours")

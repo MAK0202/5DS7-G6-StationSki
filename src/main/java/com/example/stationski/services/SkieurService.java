@@ -36,7 +36,11 @@ public class SkieurService implements ISkieurService{
     public Skieur addSkieurAndAssignToCourse(Skieur skieur, Long numCourse) {
 
         log.info("debut methode addSkieurAndAssignToCourse");
+        Skieur.builder().nomS("sahli").numSkieur(123L).build();
+
+        log.info("debut methode addSkieurAndAssignToCourse");
         Skieur.builder().nomS(skieur.getNomS()).numSkieur(skieur.getNumSkieur()).build();
+
         // t1 = date systeme
         Cours cours = coursRepository.findByNumCours(numCourse);
         Skieur s = skieurRepository.save(skieur);
@@ -74,6 +78,7 @@ public class SkieurService implements ISkieurService{
         return nombreSkieursParCouleurPiste;
     }
 
+
     @Transactional
     public Skieur addSkieur(Skieur S) {
         log.info("debut methode addSkieur");
@@ -88,6 +93,7 @@ public class SkieurService implements ISkieurService{
         Skieur S = skieurRepository.findById(id).orElse(null);
         skieurRepository.delete(S);
     }
+
 
 
 }

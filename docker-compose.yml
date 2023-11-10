@@ -1,0 +1,35 @@
+version: '2'
+services:
+  sonar:
+    image: "sonarqube:8.9.7-community"
+    container_name: sonarqube1
+    volumes:
+      - /home/jihene/sonarqube_data:/opt/sonarqube/data
+      - /home/jihene/sonarqube_logs:/opt/sonarqube/logs
+      - /home/jihene/sonarqube_extensions:/opt/sonarqube/extensions
+    ports:
+      - "9000:9000"
+  mysqldb:
+    image: "mysql:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+    ports:
+      - "3307:3307"
+  nexus1:
+    image: "sonatype/nexus3:latest"
+    container_name: nexus1
+    volumes:
+      - /home/jihene/data:/nexus-data
+    ports:
+      - "8081:8081"
+
+  station-ski-project:
+    image: "jihenejebri979/station-ski-project:latest"
+    container_name: station-ski
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/StationSki?createDatabaseIfNotExist=true&userSSL=false&max_allowed_packet=15728640
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
